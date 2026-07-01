@@ -1,16 +1,32 @@
 import api from "@/api/api";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 
 export function Signup() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
 
     async function handleSignup() {
         setLoading(true)
         let data = {username , password}
-        let response = await api.post("/api/user/signup", data)
+        let response = await api.post("/user/signup", data)
+        /**
+         * {
+         *  success: true
+         *  data: []
+         *  message: "Signup successfull"
+         * }
+         * 
+         */
+        if(response.data.success){
+            alert("Signup Successfull")
+            navigate("/view-courses")
+        } else {
+            alert("Failed to Signup")
+        }
         console.log(response);
         setLoading(false)
     }
